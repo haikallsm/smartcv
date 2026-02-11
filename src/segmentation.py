@@ -38,7 +38,11 @@ class segmentation:
         return {'cx': cx, 'cy': cy, 'area': area, 'bbox': (x, y, w, h), 'mask': mask, 'contour': best}
     
 def track_frame(frame, segmenter: segmentation, tracker: kalman_filter):
-    det = segmenter.segment(frame)
+    det = segmenter.hsv_segment(frame)
+
+    if not tracker.initialized and det is not None:
+        tracker.init(det['cx'], det['cy'])
+        return x, y, used, det
     if det is None:
         x, y, used = tracker.update(None)
         return x, y, used, None
