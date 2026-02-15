@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from kalman_tracker import kalman_filter
+from .kalman_tracker import kalman_filter
 
 class segmentation:
     def __init__(self, lower_hsv=(0, 50, 50), upper_hsv=(10, 255, 255), min_area=200, blur_ksize=5, morph_kernel=5):
@@ -42,6 +42,8 @@ def track_frame(frame, segmenter: segmentation, tracker: kalman_filter):
 
     if not tracker.initialized and det is not None:
         tracker.init(det['cx'], det['cy'])
+        x, y = det['cx'], det['cy']
+        used = True
         return x, y, used, det
     if det is None:
         x, y, used = tracker.update(None)

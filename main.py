@@ -36,16 +36,20 @@ def main():
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
+    print("camera opened success. press 'q' to quit.")
+
     while True:
         ret, frame =cap.read()
         if not ret:
             break
 
-        motion_mask, motion_detected, motion_contours = motion_detector.detect_motion(frame)
+        result = motion_detector.detect(frame)
+
+        motion_detected, motion_mask, motion_contours = result
 
         det = segmenter.hsv_segment(frame)
 
-        if motion_detected and det is not None:
+        if motion_detected is True and det is not None:
             if not tracker.initialized:
                 tracker.init(det['cx'], det['cy'])
                 x, y = det['cx'], det['cy']

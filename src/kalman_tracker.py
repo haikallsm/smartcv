@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 class kalman_filter:
-    def __init__(self, dt=1.0, process_noise=1e-2, meas_noise=1.0, gate_threshold=9.21):
+    def __init__(self, dt=0.005, process_noise=1e-2, meas_noise=1.0, gate_threshold=9.21):
         self.dt = float(dt)
         self.gate_threshold = float(gate_threshold) 
         self.kalman = cv2.KalmanFilter(4, 2)
